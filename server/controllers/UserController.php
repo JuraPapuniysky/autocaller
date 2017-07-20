@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\models\CreateUser;
 use app\models\User;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
@@ -29,9 +30,32 @@ class UserController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        if (!User::findIdentity(\Yii::$app->user->id)->isAdmin){
+        if (!User::findIdentity(\Yii::$app->user->id)->isAdmin()){
             throw new ForbiddenHttpException(sprintf('You do not have permissions!', $action));
         }
+    }
+
+    public function prepareDataProvider()
+    {
+        return \Yii::$app->request->get();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function actionAuthenticate()
+    {
+        $username =  \Yii::$app->request->post('username');
+        $password = \Yii::$app->request->post('password');
+
+        $user = User::findByUsername($username);
+        if (!$user || !$user->validatePassword($password)) {
+            return 'Incorrect username or password.';
+        }else{
+            return $user;
+        }
+
     }
 
 }

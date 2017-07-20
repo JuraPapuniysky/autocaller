@@ -31,13 +31,12 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_ADMIN = 10;
     const ROLE_USER = 30;
 
-    public $password;
 
     public function init()
     {
         $this->generateAuthKey();
         $this->generateAccessToken();
-        $this->setPassword($this->password);
+        $this->setPassword(Yii::$app->request->post('password'));
     }
 
     /**
@@ -215,6 +214,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function isAdmin()
+    {
+        if ($this->role == self::ROLE_ADMIN){
+            return true;
+        }
     }
 
 }
