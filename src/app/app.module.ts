@@ -1,16 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HttpModule} from "@angular/http";
 
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from "./app.routing.module";
+
+import {DataService} from "./services/data.service";
+
+import {AppComponent} from './app.component';
+import {HeaderComponent} from './components/header/header.component';
+import {FooterComponent} from './components/footer/footer.component';
+import {ConferenceComponent} from './components/conference/conference.component';
+import { AuthComponent } from './components/auth/auth.component';
+
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        ConferenceComponent,
+        AuthComponent
+    ],
+    imports: [
+        BrowserModule,
+        HttpModule,
+        AppRoutingModule
+    ],
+    providers: [DataService],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
