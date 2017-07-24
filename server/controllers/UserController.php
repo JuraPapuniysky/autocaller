@@ -25,7 +25,7 @@ class UserController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator']['class'] = HttpBearerAuth::className();
-        $behaviors['authenticator']['except'] = ['authenticate', 'index'];
+        $behaviors['authenticator']['except'] = ['authenticate'];
         return $behaviors;
     }
 
@@ -60,7 +60,7 @@ class UserController extends ActiveController
 
         $user = User::findByUsername($username);
         if (!$user || !$user->validatePassword($password)) {
-            return 'Incorrect username or password.';
+            return 'Incorrect username or password.'. "$username, $password";
         }else{
             return ['access_token' => $user->access_token];
         }

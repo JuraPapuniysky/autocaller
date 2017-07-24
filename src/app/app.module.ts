@@ -14,6 +14,7 @@ import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {ConferenceComponent} from './components/conference/conference.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { UserComponent } from './components/user/user.component';
 
 
 
@@ -23,7 +24,8 @@ import { AuthComponent } from './components/auth/auth.component';
         HeaderComponent,
         FooterComponent,
         ConferenceComponent,
-        AuthComponent
+        AuthComponent,
+        UserComponent
     ],
     imports: [
         BrowserModule,

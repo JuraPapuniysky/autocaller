@@ -22,13 +22,16 @@ export class AuthComponent implements OnInit{
   constructor(private authService: AuthService) {}
 
   ngOnInit(){
-    this.authService.getUsers().subscribe(
-        (data) => {
-          this.users = data;
-          this.usersCount = this.users.length;
+  //  this.authService.getUsers().subscribe(
+  //      (data) => {
+  //        this.users = data;
+  //        this.usersCount = this.users.length;
+  //
+  //      }
+  //  );
 
-        }
-    );
-  }
+    this.authService.authToken(this.username, this.password);
+
+   }
 
 }

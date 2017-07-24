@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from "@angular/http";
+import {Http, Headers, RequestOptions, Response, URLSearchParams} from "@angular/http";
 
 import {Observable} from 'rxjs/Rx';
 
@@ -15,26 +15,23 @@ export class AuthService {
 
     private authUrl = 'http://localhost:5050/users/authenticate';
 
-    constructor(private http: Http) {}
+    constructor(private http: Http) {
+    }
 
-    public authToken(username: string, password: string): Observable<string[]> {
-        let bodyRequest = JSON.stringify({
-            username: username,
-            password: password
-        });
+    public authToken(username: string, password: string) {
+        let body = new FormData();
+        body.append('username', username);
+        body.append('password', password);
 
-        let headers = new Headers({
-            'Content-Type': 'application/json; charset=UTF-8','Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-            'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
-            'Access-Control-Allow-Credentials': true
-
-        });
-        let options = new RequestOptions({headers: headers});
-
-        return this.http.post(this.authUrl, bodyRequest, options)
-            .map((res:Response) => res.json())
-            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+        return this.http.post(this.authUrl, body)
+            .map((res: Response) => res.json())
+            .subscribe(
+                (res) => {
+                    console.log(res);
+                    console.log(res.access_token);
+                    localStorage.setItem('access-token', res.access_token);
+                }
+            );
     }
 
     getUsers() {
@@ -45,7 +42,6 @@ export class AuthService {
         );
 
     }
-
 
 
     private handleError(error: any): Promise<any> {
