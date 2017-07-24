@@ -1,15 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../../services/auth.service";
+import {User} from "./user";
+import {Response} from "@angular/http";
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit{
 
-  constructor() { }
+  private username = 'admin';
+  private password = 'P@ssw0rd';
 
-  ngOnInit() {
+  public authToken;
+
+
+  public users;
+  public usersCount;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(){
+    this.authService.getUsers().subscribe(
+        (data) => {
+          this.users = data;
+          this.usersCount = this.users.length;
+
+        }
+    );
   }
 
 }

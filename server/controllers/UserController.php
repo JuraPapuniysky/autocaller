@@ -15,7 +15,7 @@ class UserController extends ActiveController
     {
         $actions = parent::actions();
 
-        //$actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        $actions['index']['prepareDataProvider'] = [$this, 'indexDataProvider'];
 
 
         return $actions;
@@ -25,14 +25,23 @@ class UserController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator']['class'] = HttpBearerAuth::className();
+        $behaviors['authenticator']['except'] = ['authenticate', 'index'];
         return $behaviors;
     }
 
+
     public function checkAccess($action, $model = null, $params = [])
     {
-        if (!User::findIdentity(\Yii::$app->user->id)->isAdmin()){
-            throw new ForbiddenHttpException(sprintf('You do not have permissions!', $action));
+        if($action != 'index') {
+            if (!User::findIdentity(\Yii::$app->user->id)->isAdmin()) {
+                throw new ForbiddenHttpException(sprintf('You do not have permissions!', $action));
+            }
         }
+    }
+
+    public function indexDataProvider()
+    {
+        return User::find()->all();
     }
 
     public function prepareDataProvider()
@@ -53,7 +62,7 @@ class UserController extends ActiveController
         if (!$user || !$user->validatePassword($password)) {
             return 'Incorrect username or password.';
         }else{
-            return $user;
+            return ['access_token' => $user->access_token];
         }
 
     }
