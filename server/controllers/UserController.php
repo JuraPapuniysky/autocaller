@@ -6,6 +6,7 @@ use app\models\User;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
+use yii\web\HeaderCollection;
 
 class UserController extends ActiveController
 {
@@ -25,7 +26,7 @@ class UserController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator']['class'] = HttpBearerAuth::className();
-        $behaviors['authenticator']['except'] = ['authenticate'];
+        $behaviors['authenticator']['except'] = ['authenticate', 'index'];
         return $behaviors;
     }
 
@@ -39,7 +40,7 @@ class UserController extends ActiveController
         }
     }
 
-    public function indexDataProvider()
+    public function actionGetUsers()
     {
         return User::find()->all();
     }

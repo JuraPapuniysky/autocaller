@@ -54,6 +54,7 @@ $config = [
                     'extraPatterns' => [
                         'POST create-user' => 'create-user',
                         'POST authenticate' => 'authenticate',
+                        'OPTIONS get-users' => 'get-users',
                     ]
                 ],
             ],
