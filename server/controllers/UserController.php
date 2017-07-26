@@ -6,7 +6,7 @@ use app\models\User;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
-use yii\web\HeaderCollection;
+
 
 class UserController extends ActiveController
 {
@@ -26,7 +26,7 @@ class UserController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator']['class'] = HttpBearerAuth::className();
-        $behaviors['authenticator']['except'] = ['authenticate', 'index'];
+        $behaviors['authenticator']['except'] = ['authenticate', 'index', 'get-users', 'user'];
         return $behaviors;
     }
 
@@ -50,6 +50,12 @@ class UserController extends ActiveController
         return \Yii::$app->request->get();
     }
 
+    public function actionUser()
+    {
+        $token = \Yii::$app->request->post('access_token');
+        return User::findIdentityByAccessToken($token);
+    }
+
 
     /**
      * @return string
@@ -63,7 +69,7 @@ class UserController extends ActiveController
         if (!$user || !$user->validatePassword($password)) {
             return 'Incorrect username or password.'. "$username, $password";
         }else{
-            return ['access_token' => $user->access_token];
+            return $user;
         }
 
     }

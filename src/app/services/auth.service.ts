@@ -12,6 +12,9 @@ import 'rxjs/add/operator/catch';
 export class AuthService {
 
     private authUrl = 'http://localhost:5050/users/authenticate';
+    private tokenKey: string = 'access-token';
+    private userKey: string = 'user';
+    public user: any;
 
     constructor(private http: Http) {
     }
@@ -27,10 +30,13 @@ export class AuthService {
                 (res) => {
                     console.log(res);
                     console.log(res.access_token);
-                    localStorage.setItem('access-token', res.access_token);
+                    localStorage.setItem(this.tokenKey, res.access_token);
+                    localStorage.setItem(this.userKey, res)
                 }
             );
     }
+
+
 
     getUsers() {
         let url = 'http://localhost:5050/users';

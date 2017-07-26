@@ -55,6 +55,7 @@ $config = [
                         'POST create-user' => 'create-user',
                         'POST authenticate' => 'authenticate',
                         'OPTIONS get-users' => 'get-users',
+                        'POST user' => 'user',
                     ]
                 ],
             ],

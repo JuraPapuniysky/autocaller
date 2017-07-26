@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {User} from "./user";
 import {Response} from "@angular/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-auth',
@@ -10,28 +11,19 @@ import {Response} from "@angular/http";
 })
 export class AuthComponent implements OnInit{
 
-  private username = 'admin';
-  private password = 'P@ssw0rd';
-
-  public authToken;
-
-
-  public users;
-  public usersCount;
-
-  constructor(private authService: AuthService) {}
+  constructor(
+      private auth: AuthService,
+      private router: Router
+  ) {}
 
   ngOnInit(){
-  //  this.authService.getUsers().subscribe(
-  //      (data) => {
-  //        this.users = data;
-  //        this.usersCount = this.users.length;
-  //
-  //      }
-  //  );
 
-    this.authService.authToken(this.username, this.password);
+  }
 
+   signIn(username, password){
+     console.log(username+'@'+password);
+     this.auth.authToken(username, password);
+     this.router.navigate(['/conference']);
    }
 
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-conference',
@@ -9,9 +11,13 @@ export class ConferenceComponent implements OnInit {
 
   public title = 'Hello Conference';
 
-  constructor() { }
+  constructor(
+      private auth: AuthService,
+      private router: Router
+  ) { }
 
   ngOnInit() {
+
   }
 
 }
