@@ -58,6 +58,14 @@ $config = [
                         'POST user' => 'user',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'catalog',
+                    'extraPatterns' => [
+                        'POST catalog' => 'catalog',
+                        'POST add-catalog' => 'add-catalog',
+                    ]
+                ],
             ],
         ]
     ],

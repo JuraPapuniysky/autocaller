@@ -6,30 +6,31 @@ import {Body} from "@angular/http/src/body";
 @Injectable()
 export class DataService {
 
-  private url = 'http://localhost:5050/users/get-users';
-  private authToken;
+  private url = 'http://localhost:5050';
+  private token: string;
 
   constructor(private http: Http) {
-   // this.authToken = localStorage.getItem('access-token');
-   // console.log(this.authToken);
+    this.token = localStorage.getItem('access-token');
   }
 
-  getUsers() {
-
-    //let headers = new Headers({'Authorization': `Bearer ${this.authToken}`});
-    let headers = new Headers();
-
-    //headers.append('Access-Control-Allow-Origin', this.url);
-    //headers.append('Allow-Cross-Origin', '*');
-    headers.append('Authorization', `Bearer ${this.authToken}`);
-    headers.append('Content-Type', 'application/json');
-    //let options = new RequestOptions({headers: headers});
-    //console.log(options);
-    //let autorization =  { 'Authorization': `Bearer ${this.authToken}` }
+  public getUserCatalogs(){
     let body = new FormData();
-    return this.http.options(this.url, {headers: headers}).map(
-        (response: Response) => response.json()
+    body.append('access_token', this.token);
+
+    return this.http.post(this.url+'/catalogs/catalog', body).map(
+        (res: Response) => res.json()
     );
   }
+
+  public addUserCatalog(name, number){
+    let body = new FormData();
+    body.append('name', name);
+    body.append('number', number);
+    body.append('access_token', localStorage.getItem('access-token'));
+
+    this.http.post(this.url+'/catalogs/add-catalog', body)
+        .map((res: Response) => res.json());
+  }
+
 
 }

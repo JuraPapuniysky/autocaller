@@ -37,8 +37,12 @@ export class HeaderComponent implements OnInit {
         });
   }
 
-  issetUser() {
-   return !this.user == null;
+  gotoCatalog(){
+    this.router.navigate(['/catalog']);
+  }
+
+  gotoLists(){
+    this.router.navigate(['/lists']);
   }
 
   logIn(){

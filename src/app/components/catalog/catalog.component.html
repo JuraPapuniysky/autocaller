@@ -1,3 +1,19 @@
-<p>
-  catalog works!
-</p>
+<app-header></app-header>
+<div class="row">
+  <div class="col-md-8"></div>
+  <div class="col-md-4">
+    <form (ngSubmit)="addNumber()" #addNumberForm = "ngForm">
+      <h2 class="form-signin-heading">Додати новий номер</h2>
+      <div class="form-group">
+        <label for="name" >Найменування:</label>
+        <input type="text" class="form-control" id="name" #name = ngModel [(ngModel)]="model.name">
+      </div>
+      <div class="form-group">
+        <label for="number">Номер:</label>
+        <input type="text" class="form-control" id="number" #number = ngModel [(ngModel)]="model.number">
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!addNumberForm.form.valid">Додати номер</button>
+    </form>
+  </div>
+</div>

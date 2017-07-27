@@ -19,6 +19,7 @@ import { CatalogComponent } from './components/catalog/catalog.component';
 import {AuthGuard} from "./guard/auth.guard";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
+import { ListsComponent } from './components/lists/lists.component';
 
 
 
@@ -32,6 +33,7 @@ import {CommonModule} from "@angular/common";
         AuthComponent,
         UserComponent,
         CatalogComponent,
+        ListsComponent,
     ],
     imports: [
         BrowserModule,

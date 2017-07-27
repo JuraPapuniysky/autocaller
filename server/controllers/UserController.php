@@ -53,11 +53,7 @@ class UserController extends ActiveController
     public function actionUser()
     {
         $token = \Yii::$app->request->post('access_token');
-        if(($model = User::findIdentityByAccessToken($token)) !== null){
-            return $model;
-        }else{
-            return false;
-        }
+        return $this->findUserByToken($token);
     }
 
 
@@ -76,6 +72,15 @@ class UserController extends ActiveController
             return $user;
         }
 
+    }
+
+    protected function findUserByToken($token)
+    {
+        if(($model = User::findIdentityByAccessToken($token)) !== null){
+            return $model;
+        }else{
+            return false;
+        }
     }
 
 }

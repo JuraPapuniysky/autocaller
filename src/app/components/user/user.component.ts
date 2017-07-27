@@ -15,17 +15,9 @@ export class UserComponent implements OnInit {
   constructor(private data: DataService) { }
 
   ngOnInit() {
-    this.user = localStorage.getItem('user');
-      console.log(this.user);
+
   }
 
-  public getUsers(){
-    this.data.getUsers().subscribe(
-        (data) => {
-          console.log(data);
-          this.users = data;
-        }
-    );
-  }
+
 
 }
