@@ -1,14 +1,17 @@
-
-<div class="form-signin">
+<app-header></app-header>
+<form class="form-signin" (ngSubmit)="signIn()" #authForm = "ngForm">
     <h2 class="form-signin-heading">Будь ласка увійдіть</h2>
     <label for="inputUsername" class="sr-only">Логін користувача</label>
-    <input #username type="text" id="inputUsername" class="form-control" placeholder="Логін користувача" required autofocus>
+    <input #username = "ngModel" type="text" id="inputUsername" class="form-control" placeholder="Логін користувача" required autofocus
+    [(ngModel)] = "model.username" name="username" >
     <label for="inputPassword" class="sr-only">Пароль</label>
-    <input #password type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+    <input #password = "ngModel" [(ngModel)] = "model.password"
+           name="password" type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
     <div class="checkbox">
         <label>
             <input type="checkbox" value="remember-me"> Remember me
         </label>
     </div>
-    <button (click)="signIn(username.value, password.value)" class="btn btn-lg btn-primary btn-block" type="submit">Увійти</button>
-</div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"
+    [disabled]="!authForm.form.valid">Увійти</button>
+</form>

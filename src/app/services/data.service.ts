@@ -10,8 +10,8 @@ export class DataService {
   private authToken;
 
   constructor(private http: Http) {
-    this.authToken = localStorage.getItem('access-token');
-    console.log(this.authToken);
+   // this.authToken = localStorage.getItem('access-token');
+   // console.log(this.authToken);
   }
 
   getUsers() {

@@ -20,4 +20,8 @@ export class ConferenceComponent implements OnInit {
 
   }
 
+  gotoLink(link){
+    this.router.navigate([link]);
+  }
+
 }

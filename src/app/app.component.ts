@@ -15,12 +15,22 @@ export class AppComponent implements OnInit{
       private router: Router
   ){}
 
-  ngOnInit(){
-    let token = localStorage.getItem('user');
-    if (token){
-      console.log(token);
-      this.router.navigate(['/auth']);
-    }
-
+  ngOnInit() {
+    this.checkAuth();
   }
+
+  checkAuth(){
+    this.auth.authByToken()
+        .subscribe((res) => {
+          if(res != false){
+            this.auth.setUserLoggedIn();
+            this.auth.user = res;
+            this.router.navigate(['/']);
+          }
+        });
+  }
+
 }
+
+
+

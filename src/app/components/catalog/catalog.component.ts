@@ -12,6 +12,7 @@ export class CatalogComponent implements OnInit {
 
   public catalogs: Catalog[];
 
+
   constructor(
       private auth: AuthService,
       private data: DataService

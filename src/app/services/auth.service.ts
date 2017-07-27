@@ -5,53 +5,59 @@ import {Http, Headers, RequestOptions, Response, URLSearchParams} from "@angular
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {User} from "../components/auth/user";
 
 
 
 @Injectable()
 export class AuthService {
 
-    private authUrl = 'http://localhost:5050/users/authenticate';
-    private tokenKey: string = 'access-token';
-    private userKey: string = 'user';
+    private isUserLoggedIn;
     public user: any;
 
+    private authUrl = 'http://localhost:5050/users';
+    public tokenKey: string = 'access-token';
+    private userKey: string = 'user';
+
+
     constructor(private http: Http) {
+        this.isUserLoggedIn = false;
+    }
+
+    public setUserLoggedIn(){
+        this.isUserLoggedIn = true;
+    }
+
+    public getUserLoggedIn(){
+        return this.isUserLoggedIn;
+    }
+
+    public logOut(){
+        localStorage.removeItem('access-token');
+        this.isUserLoggedIn = false;
     }
 
     public authToken(username: string, password: string) {
         let body = new FormData();
         body.append('username', username);
         body.append('password', password);
+        console.log(username);
+        return this.http.post(this.authUrl+'/authenticate', body)
+            .map((res: Response) => res.json());
+    }
 
-        return this.http.post(this.authUrl, body)
-            .map((res: Response) => res.json())
-            .subscribe(
-                (res) => {
-                    console.log(res);
-                    console.log(res.access_token);
-                    localStorage.setItem(this.tokenKey, res.access_token);
-                    localStorage.setItem(this.userKey, res)
-                }
-            );
+    public authByToken(){
+        let body = new FormData();
+        body.append('access_token', localStorage.getItem('access-token'));
+        return this.http.post(this.authUrl+'/user', body)
+            .map((res: Response) => res.json());
     }
 
 
 
-    getUsers() {
-        let url = 'http://localhost:5050/users';
-
-        return this.http.get(url).map(
-            (response: Response) => response.json()
-        );
-
-    }
 
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
-    }
+
 
 
 }

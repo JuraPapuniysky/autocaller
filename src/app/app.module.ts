@@ -16,6 +16,10 @@ import {ConferenceComponent} from './components/conference/conference.component'
 import { AuthComponent } from './components/auth/auth.component';
 import { UserComponent } from './components/user/user.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
+import {AuthGuard} from "./guard/auth.guard";
+import {FormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+
 
 
 
@@ -27,17 +31,20 @@ import { CatalogComponent } from './components/catalog/catalog.component';
         ConferenceComponent,
         AuthComponent,
         UserComponent,
-        CatalogComponent
+        CatalogComponent,
     ],
     imports: [
         BrowserModule,
         HttpModule,
-        AppRoutingModule
+        AppRoutingModule,
+        FormsModule,
+        CommonModule
     ],
     providers: [
         DataService,
         SocketService,
         AuthService,
+        AuthGuard,
     ],
     bootstrap: [AppComponent]
 })

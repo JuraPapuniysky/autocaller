@@ -53,7 +53,11 @@ class UserController extends ActiveController
     public function actionUser()
     {
         $token = \Yii::$app->request->post('access_token');
-        return User::findIdentityByAccessToken($token);
+        if(($model = User::findIdentityByAccessToken($token)) !== null){
+            return $model;
+        }else{
+            return false;
+        }
     }
 
 
@@ -67,7 +71,7 @@ class UserController extends ActiveController
 
         $user = User::findByUsername($username);
         if (!$user || !$user->validatePassword($password)) {
-            return 'Incorrect username or password.'. "$username, $password";
+            return false;
         }else{
             return $user;
         }
