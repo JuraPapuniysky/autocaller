@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {Body} from "@angular/http/src/body";
+import {Search} from "../components/catalog/search";
 
 
 @Injectable()
@@ -28,7 +29,25 @@ export class DataService {
     body.append('number', number);
     body.append('access_token', localStorage.getItem('access-token'));
 
-    this.http.post(this.url+'/catalogs/add-catalog', body)
+     return this.http.post(this.url+'/catalogs/add-catalog', body)
+        .map((res: Response) => res.json());
+  }
+
+  public searchUserCatalogByField(searsh: Search){
+    let body = new FormData();
+    body.append('name', searsh.name);
+    body.append('number', searsh.number);
+    body.append('access_token', localStorage.getItem('access-token'));
+
+    return this.http.post(this.url+'/catalogs/search', body)
+        .map((res: Response) => res.json());
+  }
+
+  public deleteNumber(id){
+    let body = new FormData();
+    body.append('id', id);
+
+    return this.http.post(this.url+'/catalogs/delete-number', body)
         .map((res: Response) => res.json());
   }
 

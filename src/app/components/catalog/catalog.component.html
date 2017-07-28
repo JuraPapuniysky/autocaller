@@ -1,16 +1,48 @@
 <app-header></app-header>
 <div class="row">
-  <div class="col-md-8"></div>
+  <div class="col-md-8">
+    <h2>Каталог номерів</h2>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>№</th>
+        <th>Найменування</th>
+        <th>Номер</th>
+        <th>
+          <button *ngIf="checker == false" (click)="checkAll()"  class="btn btn-warning">Вибрати всіх</button>
+          <button *ngIf="checker == true"   (click)="dropAll()" class="btn btn-danger">Відм виділення</button>
+        </th>
+        <th>Виклик</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td></td>
+        <td><input #searchNames name="searchNames" id="searchNames" [(ngModel)]="searchModel.name" (keyup)="search()" type="text"></td>
+        <td><input #searchNumbers name="searchNumbers" id="searchNumbers" [(ngModel)]="searchModel.number" (keyup)="search()" type="text"></td>
+      </tr>
+      <tr *ngFor="let catalog of catalogs">
+        <td>
+          <button (click)="deleteNumber(catalog)" class="btn glyphicon glyphicon-remove"></button>
+          <button (click)="updateNumber(catalog)" class="btn glyphicon glyphicon-pencil"></button>
+        </td>
+        <td>{{catalog.name}}</td>
+        <td>{{catalog.number}}</td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="col-md-4">
     <form (ngSubmit)="addNumber()" #addNumberForm = "ngForm">
       <h2 class="form-signin-heading">Додати новий номер</h2>
       <div class="form-group">
         <label for="name" >Найменування:</label>
-        <input type="text" class="form-control" id="name" #name = ngModel [(ngModel)]="model.name">
+        <input type="text" class="form-control" id="name" name="name" #name = ngModel [(ngModel)]="model.name">
       </div>
       <div class="form-group">
         <label for="number">Номер:</label>
-        <input type="text" class="form-control" id="number" #number = ngModel [(ngModel)]="model.number">
+        <input name="number" type="text" class="form-control" id="number" #number = ngModel [(ngModel)]="model.number">
       </div>
 
       <button type="submit" class="btn btn-primary" [disabled]="!addNumberForm.form.valid">Додати номер</button>

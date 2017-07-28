@@ -64,6 +64,8 @@ $config = [
                     'extraPatterns' => [
                         'POST catalog' => 'catalog',
                         'POST add-catalog' => 'add-catalog',
+                        'POST search' => 'search',
+                        'POST delete-number' => 'delete-number',
                     ]
                 ],
             ],

@@ -51,4 +51,31 @@ class CatalogController extends ActiveController
             return false;
         }
     }
+
+    public function actionSearch()
+    {
+        $name = \Yii::$app->request->post('name');
+        $number = \Yii::$app->request->post('number');
+        if (($user = User::findIdentityByAccessToken(\Yii::$app->request->post('access_token'))) !== null){
+            $query = Catalog::find();
+            if ($name != ''){
+                $query->andFilterWhere(['like', 'name', $name]);
+            }
+            if ($number != ''){
+                $query->andFilterWhere(['like', 'number', $number]);
+            }
+            return $query->all();
+        }
+    }
+
+    public function actionDeleteNumber()
+    {
+        if (($model = Catalog::findOne(\Yii::$app->request->post('id'))) !== null){
+            $model->delete();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
