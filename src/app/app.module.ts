@@ -20,6 +20,7 @@ import {AuthGuard} from "./guard/auth.guard";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import { ListsComponent } from './components/lists/lists.component';
+import { UpdateNumberComponent } from './components/catalog/update-number/update-number.component';
 
 
 
@@ -34,6 +35,7 @@ import { ListsComponent } from './components/lists/lists.component';
         UserComponent,
         CatalogComponent,
         ListsComponent,
+        UpdateNumberComponent,
     ],
     imports: [
         BrowserModule,

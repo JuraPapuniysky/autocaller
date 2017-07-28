@@ -17,9 +17,10 @@ export class CatalogComponent implements OnInit {
     public checker;
     public searchModel = new Search('', '');
 
-    constructor(private auth: AuthService,
-                private data: DataService,
-                private router: Router) {
+    constructor(
+        private data: DataService,
+        private router: Router
+    ) {
         this.checker = false;
     }
 
@@ -67,7 +68,8 @@ export class CatalogComponent implements OnInit {
     }
 
     public updateNumber(catalog){
-
+        this.data.updatedCatalog = catalog;
+        this.router.navigate(['/update-catalog']);
     }
 
 }

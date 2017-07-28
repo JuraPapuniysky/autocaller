@@ -68,6 +68,17 @@ class CatalogController extends ActiveController
         }
     }
 
+    public function actionUpdateNumber()
+    {
+        if (($model = Catalog::findOne(\Yii::$app->request->post('id'))) !== null){
+            $model->name = \Yii::$app->request->post('name');
+            $model->number = \Yii::$app->request->post('number');
+            return $model->save();
+        }else{
+            return false;
+        }
+    }
+
     public function actionDeleteNumber()
     {
         if (($model = Catalog::findOne(\Yii::$app->request->post('id'))) !== null){

@@ -1,0 +1,18 @@
+<app-header></app-header>
+<div class="row">
+  <div class="col-md-4">
+    <form (ngSubmit)="updateNumber()" #updateNumberForm = "ngForm">
+      <h3 class="form-signin-heading">Редагування номеру {{model.name}}</h3>
+      <div class="form-group">
+        <label for="name" >Найменування:</label>
+        <input type="text" class="form-control" id="name" name="name" #name = ngModel [(ngModel)]="model.name">
+      </div>
+      <div class="form-group">
+        <label for="number">Номер:</label>
+        <input name="number" type="text" class="form-control" id="number" #number = ngModel [(ngModel)]="model.number">
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!updateNumberForm.form.valid">Редагувати номер</button>
+    </form>
+  </div>
+</div>
