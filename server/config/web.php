@@ -69,6 +69,18 @@ $config = [
                         'POST update-number' => 'update-number',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'list',
+                    'extraPatterns' => [
+                        'POST lists' => 'lists',
+                        'POST add-list' => 'add-list',
+                        'POST delete-list' => 'delete-list',
+                        'POST update-list' => 'update-list',
+                        'POST list-catalog' => 'list-catalog',
+                        'POST add-num' => 'add-num',
+                    ]
+                ],
             ],
         ]
     ],

@@ -88,5 +88,5 @@ class CatalogController extends ActiveController
             return false;
         }
     }
-
+ 
 }

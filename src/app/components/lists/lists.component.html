@@ -1,4 +1,49 @@
 <app-header></app-header>
-<p>
-  lists works!
-</p>
+<div class="row">
+  <div class="col-md-8">
+
+
+          <h2>Списки</h2>
+          <button class="btn btn-success" (click)="showAddListForm()">Створити новий список</button>
+          <form *ngIf = "listAddFormChecker" (ngSubmit)="addList()" #addListForm = "ngForm">
+              <div class="form-group">
+                  <label for="name" >Найменування списку:</label>
+                  <input type="text" id="name" class="form-control" name="name" #name = ngModel [(ngModel)]="model.name">
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="!addListForm.valid">Додати список</button>
+          </form>
+
+
+
+          <table class="table table-hover">
+              <tbody>
+              <tr *ngFor="let list of lists">
+                  <td><input (click)="showNumbers(list)" type="radio" name="optradio">{{list.name}}</td>
+                  <td><a class="btn glyphicon glyphicon-pencil"></a></td>
+                  <td><a (click)="deleteList(list)" class="btn glyphicon glyphicon-remove"></a></td>
+              </tr>
+              </tbody>
+          </table>
+      <table class="table table-hover">
+          <tbody>
+          <tr *ngFor="let listCatalog of listCatalogs">
+              <td>{{listCatalog.name}}</td>
+              <td>{{listCatalog.number}}</td>
+
+          </tr>
+          </tbody>
+      </table>
+</div>
+    <div class="col-md-4">
+        <h2>Список номерів</h2>
+        <table class="table table-hover">
+            <tbody>
+            <tr *ngFor="let catalog of catalogs">
+                <td>{{catalog.name}}</td>
+                <td>{{catalog.number}}</td>
+                <td><button (click)="addNumber(catalog)" class="btn btn-success">Додати до {{listName}}</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
