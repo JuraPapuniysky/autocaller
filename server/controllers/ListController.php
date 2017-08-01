@@ -57,8 +57,13 @@ class ListController extends ActiveController{
     {
         $user = User::findIdentityByAccessToken(\Yii::$app->request->post('access_token'));
         if ($user != null){
-             if (($model = ListName::findOne(\Yii::$app->request->post('list_id'))) !== null){
-                $model->delete();
+             if (($listName = ListName::findOne(\Yii::$app->request->post('list_id'))) !== null){
+                if (($listPhones = ListPhone::findAll(['list_name_id' => $listName->id])) !== null){
+                    foreach ($listPhones as $listPhone){
+                        $listPhone->delete();
+                    }
+                }
+                $listName->delete();
                 return ListName::find()->all();
             }else{
                 return false;
@@ -76,7 +81,7 @@ class ListController extends ActiveController{
             $listPhones = ListPhone::findAll(['list_name_id' => $list_name_id]);
             $phones = [];
             foreach ($listPhones as $listPhone){
-                $tmp = ['number' => $listPhone->catalog->number, 'name' => $listPhone->catalog->name];
+                $tmp = ['id' => $listPhone->catalog->id,'number' => $listPhone->catalog->number, 'name' => $listPhone->catalog->name];
                 array_push($phones, $tmp);
             }
             return $phones;
@@ -97,7 +102,7 @@ class ListController extends ActiveController{
             $phones = [];
             if ($listPhone->save()){
                 foreach (ListPhone::findAll(['list_name_id' => $list_name_id]) as $listPhone){
-                    $tmp = ['number' => $listPhone->catalog->number, 'name' => $listPhone->catalog->name];
+                    $tmp = ['id' => $listPhone->catalog->id, 'number' => $listPhone->catalog->number, 'name' => $listPhone->catalog->name];
                     array_push($phones, $tmp);
                 }
             }
@@ -109,6 +114,33 @@ class ListController extends ActiveController{
 
     public function actionDeleteNum()
     {
+        $user = User::findIdentityByAccessToken(\Yii::$app->request->post('access_token'));
+        $list_name_id = \Yii::$app->request->post('list_id');
+        $catalog_id = \Yii::$app->request->post('catalog_id');
+        if ($user != null){
+            if (($model = ListPhone::findOne([
+                    'list_name_id' => $list_name_id,
+                    'catalog_id' => $catalog_id,
+                    'user_id' => $user->id,
+                ])) !== null){
+                $model->delete();
+                $phones = [];
+                foreach (ListPhone::findAll(['list_name_id' => $list_name_id, 'user_id' => $user->id]) as $listPhone){
+                    $tmp = [
+                        'id' => $listPhone->catalog->id,
+                        'number' => $listPhone->catalog->number,
+                        'name' => $listPhone->catalog->name
+                    ];
+                    array_push($phones, $tmp);
+                }
+                return $phones;
+            }else{
+                return false;
+            }
 
+        }else{
+            return false;
+        }
     }
+
 }

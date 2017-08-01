@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-7">
 
 
           <h2>Списки</h2>
@@ -19,22 +19,23 @@
               <tbody>
               <tr *ngFor="let list of lists">
                   <td><input (click)="showNumbers(list)" type="radio" name="optradio">{{list.name}}</td>
-                  <td><a class="btn glyphicon glyphicon-pencil"></a></td>
-                  <td><a (click)="deleteList(list)" class="btn glyphicon glyphicon-remove"></a></td>
+                  <!--<td><button class="btn btn-warning glyphicon glyphicon-pencil"></button></td>-->
+                  <td><button (click)="deleteList(list)" class="btn btn-danger glyphicon glyphicon-remove"></button></td>
               </tr>
               </tbody>
           </table>
+      <h2>Номери списку {{listName}}</h2>
       <table class="table table-hover">
           <tbody>
           <tr *ngFor="let listCatalog of listCatalogs">
               <td>{{listCatalog.name}}</td>
               <td>{{listCatalog.number}}</td>
-
+              <td><button (click)="deleteNumber(listCatalog)" class="btn btn-danger glyphicon glyphicon-remove"></button></td>
           </tr>
           </tbody>
       </table>
 </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <h2>Список номерів</h2>
         <table class="table table-hover">
             <tbody>

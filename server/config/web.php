@@ -79,6 +79,7 @@ $config = [
                         'POST update-list' => 'update-list',
                         'POST list-catalog' => 'list-catalog',
                         'POST add-num' => 'add-num',
+                        'POST delete-num' => 'delete-num',
                     ]
                 ],
             ],

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
-import { Body } from "@angular/http/src/body";
 import { Search } from "../components/catalog/search";
 import { UpdateNumber } from "../components/catalog/update-number/update-number";
 import { List } from "../components/lists/list";
@@ -106,7 +105,7 @@ export class DataService {
     let body = new FormData();
     body.append('access_token', this.token);
     body.append('list_id', list.id);
-    console.log(list);
+
     return this.http.post(this.url+'/lists/list-catalog', body)
       .map((res: Response) => res.json());
   }
@@ -127,7 +126,7 @@ export class DataService {
     body.append('list_id', list.id);
     body.append('catalog_id', catalog.id);
 
-    return this.http.post(this.url+'lists/delete-num', body)
+    return this.http.post(this.url+'/lists/delete-num', body)
       .map((res: Response) => res.json());
   }
 

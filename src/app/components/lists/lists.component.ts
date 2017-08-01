@@ -85,6 +85,7 @@ export class ListsComponent implements OnInit {
     public showNumbers(list) {
         this.list = list;
         this.listName = list.name;
+        this.listCatalogs = null;
 
         this.data.showListCatalog(list)
             .subscribe((res) => {
@@ -100,6 +101,13 @@ export class ListsComponent implements OnInit {
                 if (res != false) {
                     this.listCatalogs = res
                 }
+            })
+    }
+
+    public deleteNumber(catalog){
+        this.data.deleteNumberFromList(this.list, catalog)
+            .subscribe((res) => {
+                this.listCatalogs = res;
             })
     }
 
