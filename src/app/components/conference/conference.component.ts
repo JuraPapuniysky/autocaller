@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'app-conference',
@@ -10,6 +11,7 @@ import {Router} from "@angular/router";
 export class ConferenceComponent implements OnInit {
 
   public title = 'Hello Conference';
+  socket = io('http://localhost:4242');
 
   constructor(
       private auth: AuthService,
@@ -17,11 +19,17 @@ export class ConferenceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.socket.on('new-message', function (data) {
+      console.log(data);
+    })
   }
 
   gotoLink(link){
     this.router.navigate([link]);
+  }
+
+  sendMessage(message){
+    this.socket.emit('save-message', message);
   }
 
 }
