@@ -3,6 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
 
+
 @Component({
   selector: 'app-conference',
   templateUrl: './conference.component.html',
@@ -10,22 +11,38 @@ import * as io from 'socket.io-client';
 })
 export class ConferenceComponent implements OnInit {
 
-  public title = 'Hello Conference';
-  socket = io('http://localhost:4242');
+  private socket = io('http://localhost:4242');
+
+  public confStartEvent;
+  public event: string;
+  public confJoinEvents = [];
 
   constructor(
       private auth: AuthService,
       private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.socket.on('new-message', function (data) {
-      console.log(data);
-    })
+    this.confBridgeStart();
+    this.confBridgeJoin();
+
   }
 
-  gotoLink(link){
-    this.router.navigate([link]);
+
+
+  confBridgeStart(){
+    this.socket.on('ConfbridgeStart-event', function (data) {
+      let e = data.event;
+    }.bind(this));
+
+  }
+
+  confBridgeJoin(){
+    this.socket.on('ConfbridgeJoin-event', function (data) {
+      let e = data.event;
+      this.confJoinEvents.push(e);
+      console.log(this.confJoinEvents);
+    }.bind(this));
   }
 
   sendMessage(message){

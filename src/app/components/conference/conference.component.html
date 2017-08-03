@@ -1,6 +1,15 @@
 <app-header></app-header>
-<p>
-  {{title}}
-  <a (click)="gotoLink('/user')">User</a>
-  <button (click)="sendMessage('Message')">Send Message</button>
-</p>
+
+  <h2>Список учасників конференції</h2>
+  <table class="table table-hover">
+  <tbody>
+  <tr *ngFor="let event of confJoinEvents">
+    <td>{{event.calleridnum}}</td>
+    <td>{{event.calleridname}}</td>
+    <td>{{event.conference}}</td>
+    <td>{{event.channel}}</td>
+    <td>{{event.event}}</td>
+  </tr>
+  </tbody>
+</table>
+

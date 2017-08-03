@@ -11,12 +11,22 @@ var namiConfig = {
 var namiLib = require('nami');
 var nami = new (require("nami").Nami)(namiConfig);
 nami.on('namiEvent', function (event) {
-    console.log('/////////////////////////////////////////////////////////////////////////////////////////////////////')
-    console.log(event.lines[0]);
-    console.log(event.lines[1]);
-    console.log(event.lines[2]);
-    io.emit('new-message', { message: event});
-
+    //io.emit('new-message', { message: event});
+});
+nami.on('namiEventConfbridgeStart', function (event) {
+    io.emit('ConfbridgeStart-event', { event: event});
+});
+nami.on('namiEventConfbridgeJoin', function (event) {
+    io.emit('ConfbridgeJoin-event', { event: event});
+});
+nami.on('namiEventConfbridgeLeave', function (event) {
+    io.emit('ConfbridgeLeave-event', { event: event});
+});
+nami.on('namiEventConfbridgeEnd', function (event) {
+    io.emit('ConfbridgeEnd-event', { event: event});
+});
+nami.on('namiEventConfbridgeTalking', function (event) {
+    io.emit('ConfbridgeTalking-event', { event: event});
 });
 nami.on('namiEventDial', function (event) { });
 nami.on('namiEventVarSet', function (event) { });
