@@ -1,15 +1,46 @@
 <app-header></app-header>
+<div class="row">
+    <div class="col-md-7">
+        <h2>Список учасників конференції</h2>
+        <table class="table table-condensed table-hover table-bordered">
+            <thead>
+            <tr>
+                <th><a (click)="kickAll()" class="btn btn-danger btn-sm glyphicon glyphicon-remove"></a></th>
+                <th><a (click)="callAll()" class="btn btn-success btn-sm fa fa-phone"></a></th>
+                <th>Найменування</th>
+                <th>Телефон</th>
+                <th>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a (click)="muteAll()" class="btn btn-sm btn-danger fa fa-microphone-slash fa-1x"></a>
+                        </div>
 
-  <h2>Список учасників конференції</h2>
-  <table class="table table-hover">
-  <tbody>
-  <tr *ngFor="let event of confJoinEvents">
-    <td>{{event.calleridnum}}</td>
-    <td>{{event.calleridname}}</td>
-    <td>{{event.conference}}</td>
-    <td>{{event.channel}}</td>
-    <td>{{event.event}}</td>
-  </tr>
-  </tbody>
-</table>
+                        <div class="col-md-1">
+                            <a (click)="unmuteAll()" class="btn btn-sm btn-success fa fa-microphone fa-1x"></a>
+                        </div>
+                    </div>
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let catalog of activeList">
+                <td>
+                    <button class="btn btn-default btn-sm glyphicon glyphicon-remove"></button>
+                </td>
+                <td>
+                    <button class="btn btn-default btn-sm fa fa-phone"></button>
+                </td>
+                <td>{{catalog.name}}</td>
+                <td>{{catalog.number}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-5">
+
+    </div>
+</div>
 

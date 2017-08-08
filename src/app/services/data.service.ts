@@ -110,6 +110,11 @@ export class DataService {
       .map((res: Response) => res.json());
   }
 
+  public getActiveList(){
+      return this.http.get(this.url+'/lists/active-list')
+          .map((res: Response) => res.json());
+  }
+
   public addNumberToList(list, catalog){
     let body = new FormData();
     body.append('access_token', this.token);

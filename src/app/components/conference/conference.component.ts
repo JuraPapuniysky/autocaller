@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
+import {DataService} from "../../services/data.service";
 
 
 @Component({
@@ -16,19 +17,30 @@ export class ConferenceComponent implements OnInit {
   public confStartEvent;
   public event: string;
   public confJoinEvents = [];
+  public activeList;
 
   constructor(
       private auth: AuthService,
+      private data: DataService,
       private router: Router
   ) {}
 
   ngOnInit() {
     this.confBridgeStart();
     this.confBridgeJoin();
-
+    this.getActiveList();
   }
 
 
+  private getActiveList(){
+    this.data.getActiveList()
+        .subscribe((res) => {
+          if (res != false){
+            console.log(res);
+            this.activeList = res;
+          }
+        });
+  }
 
   confBridgeStart(){
     this.socket.on('ConfbridgeStart-event', function (data) {

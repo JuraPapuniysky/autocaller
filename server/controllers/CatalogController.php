@@ -5,6 +5,7 @@ namespace app\controllers;
 
 
 use app\models\Catalog;
+use app\models\ListPhone;
 use app\models\User;
 use yii\rest\ActiveController;
 
@@ -82,6 +83,11 @@ class CatalogController extends ActiveController
     public function actionDeleteNumber()
     {
         if (($model = Catalog::findOne(\Yii::$app->request->post('id'))) !== null){
+            if(($listPhones = ListPhone::findAll(['catalog_id' => $model->id])) !== null){
+                foreach ($listPhones as $listPhone){
+                    $listPhone->delete();
+                }
+            }
             $model->delete();
             return true;
         }else{

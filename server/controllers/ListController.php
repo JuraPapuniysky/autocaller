@@ -78,11 +78,39 @@ class ListController extends ActiveController{
         $user = User::findIdentityByAccessToken(\Yii::$app->request->post('access_token'));
         $list_name_id = \Yii::$app->request->post('list_id');
         if ($user != null){
+            if (($listNames = ListName::findAll(['user_id' => $user->id])) !== null){
+                foreach ($listNames as $listName){
+                    if ($listName->id != $list_name_id){
+                        $listName->status = ListName::STATUS_PASSIVE;
+                        $listName->save();
+                    }else{
+                        $listName->status = ListName::STATUS_ACTIVE;
+                        $listName->save();
+                    }
+                }
+            }
             $listPhones = ListPhone::findAll(['list_name_id' => $list_name_id]);
             $phones = [];
             foreach ($listPhones as $listPhone){
                 $tmp = ['id' => $listPhone->catalog->id,'number' => $listPhone->catalog->number, 'name' => $listPhone->catalog->name];
                 array_push($phones, $tmp);
+            }
+            return $phones;
+        }else{
+            return false;
+        }
+    }
+
+    public function actionActiveList()
+    {
+        if(($listName = ListName::findOne(['status' => ListName::STATUS_ACTIVE])) !== null){
+            $phones = [];
+            foreach ($listName->listPhones as $listPhone){
+                array_push($phones, [
+                    'id' => $listPhone->catalog->id,
+                    'number' => $listPhone->catalog->number,
+                    'name' => $listPhone->catalog->name,
+                ]);
             }
             return $phones;
         }else{

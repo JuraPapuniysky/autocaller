@@ -18,7 +18,8 @@
           <table class="table table-hover">
               <tbody>
               <tr *ngFor="let list of lists">
-                  <td><input (click)="showNumbers(list)" type="radio" name="optradio">{{list.name}}</td>
+                  <td *ngIf="!isChecked(list)"><input (click)="showNumbers(list)" type="radio" name="optradio" >{{list.name}}</td>
+                  <td *ngIf="isChecked(list)"><input checked (click)="showNumbers(list)" type="radio" name="optradio" >{{list.name}}</td>
                   <!--<td><button class="btn btn-warning glyphicon glyphicon-pencil"></button></td>-->
                   <td><button (click)="deleteList(list)" class="btn btn-danger glyphicon glyphicon-remove"></button></td>
               </tr>

@@ -80,6 +80,7 @@ $config = [
                         'POST list-catalog' => 'list-catalog',
                         'POST add-num' => 'add-num',
                         'POST delete-num' => 'delete-num',
+                        'GET active-list' => 'active-list',
                     ]
                 ],
             ],

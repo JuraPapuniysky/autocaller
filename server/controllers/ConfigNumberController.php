@@ -1,0 +1,63 @@
+<?php
+
+
+namespace app\controllers;
+
+
+use app\models\ConfigNumber;
+use app\models\ListName;
+use yii\rest\ActiveController;
+
+class ConfigNumberController extends ActiveController
+{
+    public $modelClass = 'app/models/ConfigNumber';
+
+
+    /**
+     * @return ConfigNumber[]
+     */
+    public function actionConfigNumbers()
+    {
+        $list_name_id = \Yii::$app->request->post('list_name_id');
+
+        if(($configNumbers = self::findConfigNumbers($list_name_id)) === null){
+            if(($listName = ListName::findOne($list_name_id)) !== null){
+                foreach ($listName->listPhones as $listPhone){
+                    $configNumber = new ConfigNumber();
+                    $configNumber->list_name_id = $list_name_id;
+                    $configNumber->catalog_id = $listPhone->catalog->id;
+                    $configNumber->save();
+                }
+            }
+        }
+
+        return $configNumbers;
+    }
+
+
+    /**
+     * @return ConfigNumber
+     */
+    public function actionConfigNumber()
+    {
+        $list_name_id = \Yii::$app->request->post('list_name_id');
+        $catalog_id = \Yii::$app->request->post('catalog_id');
+
+        $configNumber = ConfigNumber::findOne(['list_name_id' => $list_name_id, 'catalog_id' => $catalog_id]);
+        if($configNumber->microphone == ConfigNumber::MICROPHONE_OFF){
+            $configNumber->microphone = ConfigNumber::MICROPHONE_ON;
+            $configNumber->save();
+        }else{
+            $configNumber->microphone = ConfigNumber::MICROPHONE_OFF;
+            $configNumber->save();
+        }
+        return $configNumber;
+    }
+
+    protected static function findConfigNumbers($list_name_id)
+    {
+        if(($configNumbers = ConfigNumber::findOne(['list_name_id' => $list_name_id])) !== null){
+            return $configNumbers;
+        }
+    }
+}

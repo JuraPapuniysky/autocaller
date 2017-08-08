@@ -50,6 +50,7 @@ export class ListsComponent implements OnInit {
     public getLists() {
         this.data.lists().subscribe((res) => {
             if (res != false) {
+                console.log(res);
                 this.lists = res;
             }
         });
@@ -109,6 +110,15 @@ export class ListsComponent implements OnInit {
             .subscribe((res) => {
                 this.listCatalogs = res;
             })
+    }
+
+    public isChecked(list){
+        if (list.status == '1'){
+            //this.showNumbers(list);
+            return true;
+        }else {
+            return false;
+        }
     }
 
 }
