@@ -111,8 +111,11 @@ export class DataService {
   }
 
   public getActiveList(){
-      return this.http.get(this.url+'/lists/active-list')
-          .map((res: Response) => res.json());
+    let body = new FormData();
+    body.append('access_token', this.token);
+
+    return this.http.post(this.url+'/lists/active-list', body)
+      .map((res: Response) => res.json());
   }
 
   public addNumberToList(list, catalog){
@@ -133,6 +136,50 @@ export class DataService {
 
     return this.http.post(this.url+'/lists/delete-num', body)
       .map((res: Response) => res.json());
+  }
+
+  public microphone(catalog){
+    let body = new FormData();
+    body.append('catalog_id', catalog.catalog_id);
+    body.append('config_number_id', catalog.config_number_id);
+
+    return this.http.post(this.url + '/config-numbers/config-number', body)
+        .map((res: Response) => res.json());
+  }
+
+
+
+
+
+
+
+  ///////////////////////////////////////////////////////////////////
+  public getListConfs(){
+    let body = new FormData();
+    body.append('access_token', this.token);
+
+    return this.http.post(this.url + '/conferences/list', body)
+        .map((res: Response) => res.json());
+  }
+
+  public addListConf(name, number){
+    let body = new FormData();
+    body.append('access_token', this.token);
+    body.append('name', name);
+    body.append('number', number);
+
+    return this.http.post(this.url + '/conferences/add', body)
+        .map((res: Response) => res.json());
+  }
+
+  public deleteListConf(name, number){
+    let body = new FormData();
+    body.append('access_token', this.token);
+    body.append('name', name);
+    body.append('number', number);
+
+    return this.http.post(this.url + '/conferences/delete-conference', body)
+        .map((res: Response) => res.json());
   }
 
 }

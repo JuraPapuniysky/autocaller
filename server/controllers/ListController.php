@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\ConfigNumber;
+use yii\db\Query;
 use yii\rest\ActiveController;
 use app\models\User;
 use app\models\ListName;
@@ -103,19 +105,24 @@ class ListController extends ActiveController{
 
     public function actionActiveList()
     {
-        if(($listName = ListName::findOne(['status' => ListName::STATUS_ACTIVE])) !== null){
-            $phones = [];
-            foreach ($listName->listPhones as $listPhone){
-                array_push($phones, [
-                    'id' => $listPhone->catalog->id,
-                    'number' => $listPhone->catalog->number,
-                    'name' => $listPhone->catalog->name,
-                ]);
-            }
-            return $phones;
+        $user = User::findIdentityByAccessToken(\Yii::$app->request->post('access_token'));
+        if (($listName = ListName::findOne(['user_id' => $user->id, 'status' => ListName::STATUS_ACTIVE])) !== null){
+            return (new Query())
+                ->select([
+                    'catalog.id as catalog_id',
+                    'config_number.id as config_number_id',
+                    'catalog.name as name',
+                    'catalog.number as number',
+                    'config_number.microphone as microphone'
+                ])
+                ->from('{{%catalog}}')
+                ->innerJoin('{{%config_number}}', 'config_number.catalog_id = catalog.id')
+                ->where(['config_number.list_name_id' => $listName->id])
+                ->all();
         }else{
             return false;
         }
+
     }
 
     public function actionAddNum()
@@ -129,6 +136,10 @@ class ListController extends ActiveController{
             $listPhone->catalog_id = \Yii::$app->request->post('catalog_id');
             $phones = [];
             if ($listPhone->save()){
+                $configNumber = new ConfigNumber();
+                $configNumber->catalog_id = $listPhone->catalog_id;
+                $configNumber->list_name_id = $list_name_id;
+                $configNumber->save();
                 foreach (ListPhone::findAll(['list_name_id' => $list_name_id]) as $listPhone){
                     $tmp = ['id' => $listPhone->catalog->id, 'number' => $listPhone->catalog->number, 'name' => $listPhone->catalog->name];
                     array_push($phones, $tmp);
@@ -151,6 +162,8 @@ class ListController extends ActiveController{
                     'catalog_id' => $catalog_id,
                     'user_id' => $user->id,
                 ])) !== null){
+                $configNumber = ConfigNumber::findOne(['list_name_id' => $model->list_name_id, 'catalog_id' => $model->catalog_id]);
+                $configNumber->delete();
                 $model->delete();
                 $phones = [];
                 foreach (ListPhone::findAll(['list_name_id' => $list_name_id, 'user_id' => $user->id]) as $listPhone){

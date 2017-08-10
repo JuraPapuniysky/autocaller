@@ -57,6 +57,44 @@ export class ConferenceComponent implements OnInit {
     }.bind(this));
   }
 
+  public isMicrophoneActive(catalog) {
+    if (catalog.microphone != '0') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public microphoneOn(catalog){
+    this.data.microphone(catalog)
+        .subscribe((res) => {
+            if(res != false){
+              //TODU send mic on action to asterisk.
+              this.setMicrophone(res);
+            }
+        });
+  }
+
+  public microphoneOff(catalog){
+    this.data.microphone(catalog)
+        .subscribe((res) => {
+          if(res != false){
+            //TODU send mic off action to asterisk.
+            this.setMicrophone(res);
+          }
+        });
+  }
+
+  protected setMicrophone(res){
+    let i = 0;
+    for (let catalog of this.activeList){
+      if (catalog.config_number_id == res.id){
+        this.activeList[i].microphone = res.microphone;
+      }
+      i++;
+    }
+  }
+
   sendMessage(message){
     this.socket.emit('save-message', message);
   }

@@ -8,6 +8,7 @@ import {AuthGuard} from "./guard/auth.guard";
 import {CatalogComponent} from "./components/catalog/catalog.component";
 import {ListsComponent} from "./components/lists/lists.component";
 import {UpdateNumberComponent} from "./components/catalog/update-number/update-number.component";
+import {ListconfComponent} from "./components/listconf/listconf.component";
 
 const routes: Routes = [
     {path: '', redirectTo: 'conference', pathMatch: 'full'},
@@ -16,7 +17,8 @@ const routes: Routes = [
     {path: 'user', canActivate: [AuthGuard], component: UserComponent},
     {path: 'catalog', canActivate: [AuthGuard], component: CatalogComponent},
     {path: 'lists', canActivate: [AuthGuard], component: ListsComponent},
-    {path: 'update-catalog', canActivate: [AuthGuard], component: UpdateNumberComponent}
+    {path: 'update-catalog', canActivate: [AuthGuard], component: UpdateNumberComponent},
+    {path: 'listconf', canActivate: [AuthGuard], component: ListconfComponent}
 ]
 
 @NgModule({

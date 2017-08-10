@@ -40,18 +40,22 @@ class ConfigNumberController extends ActiveController
      */
     public function actionConfigNumber()
     {
-        $list_name_id = \Yii::$app->request->post('list_name_id');
+        $config_number_id = \Yii::$app->request->post('config_number_id');
         $catalog_id = \Yii::$app->request->post('catalog_id');
 
-        $configNumber = ConfigNumber::findOne(['list_name_id' => $list_name_id, 'catalog_id' => $catalog_id]);
-        if($configNumber->microphone == ConfigNumber::MICROPHONE_OFF){
-            $configNumber->microphone = ConfigNumber::MICROPHONE_ON;
-            $configNumber->save();
-        }else{
-            $configNumber->microphone = ConfigNumber::MICROPHONE_OFF;
-            $configNumber->save();
+        $configNumber = ConfigNumber::findOne(['id' => $config_number_id, 'catalog_id' => $catalog_id]);
+        if ($configNumber !== null) {
+            if ($configNumber->microphone == ConfigNumber::MICROPHONE_OFF) {
+                $configNumber->microphone = ConfigNumber::MICROPHONE_ON;
+                $configNumber->save();
+            } else {
+                $configNumber->microphone = ConfigNumber::MICROPHONE_OFF;
+                $configNumber->save();
+            }
+            return $configNumber;
+        }else {
+            return false;
         }
-        return $configNumber;
     }
 
     protected static function findConfigNumbers($list_name_id)

@@ -21,6 +21,7 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import { ListsComponent } from './components/lists/lists.component';
 import { UpdateNumberComponent } from './components/catalog/update-number/update-number.component';
+import { ListconfComponent } from './components/listconf/listconf.component';
 
 
 
@@ -36,6 +37,7 @@ import { UpdateNumberComponent } from './components/catalog/update-number/update
         CatalogComponent,
         ListsComponent,
         UpdateNumberComponent,
+        ListconfComponent,
     ],
     imports: [
         BrowserModule,

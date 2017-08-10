@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </th>
-                <th></th>
+                <th>Відео</th>
             </tr>
             </thead>
             <tbody>
@@ -33,7 +33,8 @@
                 </td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.number}}</td>
-                <td></td>
+                <td *ngIf="isMicrophoneActive(catalog)"><button (click)="microphoneOff(catalog)" class="btn btn-success fa fa-microphone fa-1x"></button></td>
+                <td *ngIf="!isMicrophoneActive(catalog)"><button (click)="microphoneOn(catalog)" class="btn btn-danger fa fa-microphone-slash fa-1x"></button></td>
                 <td></td>
             </tr>
             </tbody>

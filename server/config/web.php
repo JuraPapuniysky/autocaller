@@ -80,7 +80,14 @@ $config = [
                         'POST list-catalog' => 'list-catalog',
                         'POST add-num' => 'add-num',
                         'POST delete-num' => 'delete-num',
-                        'GET active-list' => 'active-list',
+                        'POST active-list' => 'active-list',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'config-number',
+                    'extraPatterns' => [
+                        'POST config-number' => 'config-number',
                     ]
                 ],
             ],
