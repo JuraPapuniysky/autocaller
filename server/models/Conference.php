@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "conference".
@@ -24,6 +25,13 @@ class Conference extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'conference';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**

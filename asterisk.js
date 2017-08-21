@@ -1,6 +1,8 @@
 let app = require('express')();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
+let bodyParser = require('body-parser')
+
 
 var namiConfig = {
     host: "10.109.36.195",
@@ -8,8 +10,8 @@ var namiConfig = {
     username: "bos",
     secret: "Bthfh[bZ"
 };
-var namiLib = require('nami');
-var nami = new (require("nami").Nami)(namiConfig);
+var namiLib = require("nami");
+var nami = new (namiLib.Nami)(namiConfig);
 nami.on('namiEvent', function (event) {
     //io.emit('new-message', { message: event});
 });
@@ -31,6 +33,39 @@ nami.on('namiEventConfbridgeTalking', function (event) {
 nami.on('namiEventDial', function (event) { });
 nami.on('namiEventVarSet', function (event) { });
 nami.on('namiEventHangup', function (event) { });
+
+
+nami.on('namiConnected', function (event) {
+    io.on('connection', function (socket) {
+        socket.on('confbridge-list-req', function (data) {
+            console.log(data);
+            var action = new namiLib.Actions.ConfbridgeList(data.conference);
+            //action.command = "confbridge list " + data.conference;
+            nami.send(action, function (response) {
+                io.emit('confbridge-list-res', {response: response});
+            });
+        });
+    });
+});
+
+
+
+
+app.get('/conf-bridge-list/:conference', function (req, res) {
+    //return res.send(req.params.conference);
+
+    var action = new namiLib.Actions.Action('ConfBridgeList');
+    action.variables = {
+        'Conference': req.params.conference
+    };
+    nami.send(action, function (response) {
+        return response;
+    });
+    //console.log(req.conference);
+
+});
+
+
 process.on('SIGINT', function () {
     nami.close();
     process.exit();
@@ -50,6 +85,19 @@ io.on('connection', function (socket) {
         io.emit('new-message', { message: data });
     });
 });
+
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+/**bodyParser.json(options)
+ * Parses the text as JSON and exposes the resulting object on req.body.
+ */
+
+
+
+
 
 http.listen(4242, () => {
     console.log('started on port 4242');

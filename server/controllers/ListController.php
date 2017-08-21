@@ -113,7 +113,7 @@ class ListController extends ActiveController{
                     'config_number.id as config_number_id',
                     'catalog.name as name',
                     'catalog.number as number',
-                    'config_number.microphone as microphone'
+                    'config_number.microphone as microphone',
                 ])
                 ->from('{{%catalog}}')
                 ->innerJoin('{{%config_number}}', 'config_number.catalog_id = catalog.id')

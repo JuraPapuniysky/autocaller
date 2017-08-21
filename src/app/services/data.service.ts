@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from "@angular/http";
+import {Http, Headers, RequestOptions, Response, URLSearchParams} from "@angular/http";
 import { Search } from "../components/catalog/search";
 import { UpdateNumber } from "../components/catalog/update-number/update-number";
 import { List } from "../components/lists/list";
@@ -9,6 +9,7 @@ import { List } from "../components/lists/list";
 export class DataService {
 
   private url = 'http://localhost:5050';
+  private asteriskUrl = 'http://localhost:4242';
   private token: string;
 
 
@@ -118,6 +119,14 @@ export class DataService {
       .map((res: Response) => res.json());
   }
 
+  public getActiveConference(){
+      let body = new FormData();
+      body.append('access_token', this.token);
+
+      return this.http.post(this.url+'/conferences/get-active', body)
+          .map((res: Response) => res.json());
+  }
+
   public addNumberToList(list, catalog){
     let body = new FormData();
     body.append('access_token', this.token);
@@ -140,14 +149,27 @@ export class DataService {
 
   public microphone(catalog){
     let body = new FormData();
-    body.append('catalog_id', catalog.catalog_id);
-    body.append('config_number_id', catalog.config_number_id);
+    body.append('catalog_id', catalog.catalogId);
+    body.append('config_number_id', catalog.configNumberId);
 
     return this.http.post(this.url + '/config-numbers/config-number', body)
         .map((res: Response) => res.json());
   }
 
 
+  public call(){
+   let body = new URLSearchParams();
+    body.set('name', '556677');
+   let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+
+    this.http.post(this.asteriskUrl+'/call', body, {headers: headers})
+        .map((res: Response) => res.json())
+        .subscribe(
+            (res) => {
+          console.log(res);
+        }
+    )
+  }
 
 
 

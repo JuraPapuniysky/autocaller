@@ -90,6 +90,13 @@ $config = [
                         'POST config-number' => 'config-number',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'conference',
+                    'extraPatterns' => [
+                        'POST get-active' => 'get-active',
+                    ]
+                ],
             ],
         ]
     ],
