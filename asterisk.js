@@ -39,11 +39,23 @@ nami.on('namiConnected', function (event) {
     io.on('connection', function (socket) {
 
         socket.on('confbridge-list-req', function (data) {
-            console.log(data);
             var action = new namiLib.Actions.ConfbridgeList(data.conference);
-            //action.command = "confbridge list " + data.conference;
             nami.send(action, function (response) {
                 io.emit('confbridge-list-res', {response: response});
+            });
+        });
+
+        socket.on('originate', function (data) {
+           var action = new namiLib.Actions.Originate();
+            action.set("Channel", data.channel);
+            action.set("Callerid", data.callerid);
+            action.set("Exten", data.conference);
+            action.set("Context", "from-internal");
+            action.set("Codecs", "alaw");
+            action.set("Priority", 1);
+
+            nami.send(action, function (response) {
+               io.emit('originate-res', {response: response, action: action});
             });
         });
 
@@ -63,23 +75,6 @@ nami.on('namiConnected', function (event) {
 
 
     });
-});
-
-
-
-
-app.get('/conf-bridge-list/:conference', function (req, res) {
-    //return res.send(req.params.conference);
-
-    var action = new namiLib.Actions.Action('ConfBridgeList');
-    action.variables = {
-        'Conference': req.params.conference
-    };
-    nami.send(action, function (response) {
-        return response;
-    });
-    //console.log(req.conference);
-
 });
 
 
