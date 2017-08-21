@@ -172,8 +172,7 @@ export class ConferenceComponent implements OnInit {
     this.data.microphone(catalog)
         .subscribe((res) => {
             if(res != false){
-              //TODU send mic on action to asterisk.
-                console.log(res);
+              this.confbridgeUnmune(this.activeConference.number, catalog.channel);
               this.setMicrophone(res);
             }
         });
@@ -184,10 +183,30 @@ export class ConferenceComponent implements OnInit {
     this.data.microphone(catalog)
         .subscribe((res) => {
           if(res != false){
-            //TODU send mic off action to asterisk.
+            this.confbridgeMute(this.activeConference.number, catalog.channel);
             this.setMicrophone(res);
           }
         });
+  }
+
+  private confbridgeMute(conference, channel){
+      this.socket.emit('confbridge-mute', {
+          conference: conference,
+          channel: channel
+      });
+      this.socket.on('confbridge-mute-res', function (data) {
+          console.log(data);
+      }.bind(this));
+  }
+
+  private confbridgeUnmune(conference, channel){
+      this.socket.emit('confbridge-unmute', {
+          conference: conference,
+          channel: channel
+      });
+      this.socket.on('confbridge-unmute-res', function (data) {
+          console.log(data);
+      }.bind(this));
   }
 
   protected setMicrophone(res){

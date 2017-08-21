@@ -37,6 +37,7 @@ nami.on('namiEventHangup', function (event) { });
 
 nami.on('namiConnected', function (event) {
     io.on('connection', function (socket) {
+
         socket.on('confbridge-list-req', function (data) {
             console.log(data);
             var action = new namiLib.Actions.ConfbridgeList(data.conference);
@@ -45,6 +46,22 @@ nami.on('namiConnected', function (event) {
                 io.emit('confbridge-list-res', {response: response});
             });
         });
+
+        socket.on('confbridge-mute', function (data) {
+            var action = new namiLib.Actions.ConfbridgeMute(data.conference, data.channel);
+            nami.send(action, function (response) {
+                io.emit('confbridge-mute-res', {response: response});
+            });
+        });
+
+        socket.on('confbridge-unmute', function (data) {
+            var action = new namiLib.Actions.ConfbridgeUnmute(data.conference, data.channel);
+            nami.send(action, function (response) {
+                io.emit('confbridge-unmute-res', {response: response});
+            });
+        });
+
+
     });
 });
 
