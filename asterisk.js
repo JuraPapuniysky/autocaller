@@ -80,6 +80,18 @@ nami.on('namiConnected', function (event) {
             });
         });
 
+        socket.on('confbridgeSetSingleVideoSrc', function (data) {
+           var name = 'ConfbridgeSetSingleVideoSrc';
+            var command = 'confbridge set single video src '+data.conference+' '+data.channel;
+           var action = new namiLib.Actions.Command(command);
+            //action.set("Conference", data.conference);
+            //action.set("Channel", data.channel);
+
+            nami.send(action, function (response) {
+               io.emit('confbridgeSetSingleVideoSrc-res', {response: response});
+            });
+        });
+
     });
 });
 

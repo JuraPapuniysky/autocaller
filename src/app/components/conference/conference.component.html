@@ -37,7 +37,10 @@
                 <td>{{catalog.number}}</td>
                 <td *ngIf="isMicrophoneActive(catalog)"><button (click)="microphoneOff(catalog)" class="btn btn-success fa fa-microphone fa-1x"></button></td>
                 <td *ngIf="!isMicrophoneActive(catalog)"><button (click)="microphoneOn(catalog)" class="btn btn-danger fa fa-microphone-slash fa-1x"></button></td>
-                <td></td>
+                <td *ngIf="isCatalogActive(catalog)"><button (click)="setSingleVideo(catalog)" class="btn btn-default glyphicon glyphicon-facetime-video"></button></td>
+                <td *ngIf="!isCatalogActive(catalog)"></td>
+                <td *ngIf="isCatalogActive(catalog)"><button class="btn btn-default glyphicon glyphicon-picture"></button></td>
+                <td *ngIf="!isCatalogActive(catalog)"></td>
             </tr>
             </tbody>
         </table>

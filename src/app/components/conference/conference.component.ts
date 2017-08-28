@@ -235,6 +235,17 @@ export class ConferenceComponent implements OnInit {
         });
     }
 
+    public setSingleVideo(catalog){
+        this.socket.emit('confbridgeSetSingleVideoSrc', {
+           conference: this.activeConference.number,
+           channel: catalog.channel
+        });
+
+        this.socket.on('confbridgeSetSingleVideoSrc-res', function (data) {
+           console.log(data);
+        });
+    }
+
     private getActiveConference() {
         this.data.getActiveConference().subscribe((res) => {
             console.log(res);

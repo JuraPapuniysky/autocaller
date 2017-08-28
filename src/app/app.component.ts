@@ -26,6 +26,8 @@ export class AppComponent implements OnInit{
             this.auth.setUserLoggedIn();
             this.auth.user = res;
             this.router.navigate(['/']);
+          }else {
+            this.router.navigate(['/auth']);
           }
         });
   }
