@@ -96,6 +96,11 @@ export class ConferenceComponent implements OnInit {
                             if (item.number == event.calleridnum) {
                                 this.activeList[i].isActive = true;
                                 this.activeList[i].channel = event.channel;
+                                if(this.activeList[i].microphone == 1){
+                                    this.confbridgeUnmute(this.activeConference.number, this.activeList[i].channel);
+                                }else {
+                                    this.confbridgeMute(this.activeConference.number, this.activeList[i].channel);
+                                }
                             }
                             i++;
                         }
@@ -136,6 +141,11 @@ export class ConferenceComponent implements OnInit {
                 if (this.activeConference.number == this.confJoinEvents.conference) {
                     if (item.number == this.confJoinEvents.calleridnum) {
                         this.activeList[i].channel = this.confJoinEvents.channel;
+                        if(this.activeList[i].microphone == 1){
+                            this.confbridgeUnmute(this.activeConference.number, this.activeList[i].channel);
+                        }else {
+                            this.confbridgeMute(this.activeConference.number, this.activeList[i].channel);
+                        }
                     }
                 }
                 i++;
@@ -171,7 +181,7 @@ export class ConferenceComponent implements OnInit {
         this.data.microphone(catalog)
             .subscribe((res) => {
                 if (res != false) {
-                    this.confbridgeUnmune(this.activeConference.number, catalog.channel);
+                    this.confbridgeUnmute(this.activeConference.number, catalog.channel);
                     this.setMicrophone(res);
                 }
             });
@@ -198,7 +208,7 @@ export class ConferenceComponent implements OnInit {
         }.bind(this));
     }
 
-    private confbridgeUnmune(conference, channel) {
+    private confbridgeUnmute(conference, channel) {
         this.socket.emit('confbridge-unmute', {
             conference: conference,
             channel: channel
@@ -218,6 +228,13 @@ export class ConferenceComponent implements OnInit {
         }
     }
 
+    public confbridgeKick(catalog){
+        this.socket.emit('confbrige-kick', {
+           conference: this.activeConference.number,
+           channel: catalog.channel
+        });
+    }
+
     private getActiveConference() {
         this.data.getActiveConference().subscribe((res) => {
             console.log(res);
@@ -228,7 +245,7 @@ export class ConferenceComponent implements OnInit {
     }
 
     public isCatalogActive(catalog) {
-        return catalog.channel == '';
+        return catalog.channel != '';
     }
 
 

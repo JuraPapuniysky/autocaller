@@ -73,6 +73,12 @@ nami.on('namiConnected', function (event) {
             });
         });
 
+        socket.on('confbrige-kick', function (data) {
+           var action = new namiLib.Actions.ConfbridgeKick(data.conference, data.channel);
+            nami.send(action, function (response) {
+                io.emit('confbridge-kick-res', {response: response});
+            });
+        });
 
     });
 });

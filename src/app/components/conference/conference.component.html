@@ -26,12 +26,12 @@
             <tbody>
             <tr *ngFor="let catalog of activeList">
                 <td>
-                    <button *ngIf="isCatalogActive(catalog)" class="btn btn-default btn-sm glyphicon glyphicon-remove"></button>
-                    <button *ngIf="!isCatalogActive(catalog)" class="btn btn-danger btn-sm glyphicon glyphicon-remove"></button>
+                    <button *ngIf="!isCatalogActive(catalog)" class="btn btn-default btn-sm glyphicon glyphicon-remove"></button>
+                    <button *ngIf="isCatalogActive(catalog)" (click)="confbridgeKick(catalog)" class="btn btn-danger btn-sm glyphicon glyphicon-remove"></button>
                 </td>
                 <td>
-                    <button *ngIf="!isCatalogActive(catalog)"  class="btn btn-success btn-sm fa fa-phone"></button>
-                    <button *ngIf="isCatalogActive(catalog)" (click)="originate(catalog)" class="btn btn-default btn-sm fa fa-phone"></button>
+                    <button *ngIf="isCatalogActive(catalog)"  class="btn btn-success btn-sm fa fa-phone"></button>
+                    <button *ngIf="!isCatalogActive(catalog)" (click)="originate(catalog)" class="btn btn-default btn-sm fa fa-phone"></button>
                 </td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.number}}</td>
