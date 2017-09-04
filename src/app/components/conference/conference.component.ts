@@ -85,9 +85,6 @@ export class ConferenceComponent implements OnInit {
     public updateActiveList(events) {
         this.data.getActiveList()
             .subscribe((res) => {
-                console.log(this.activeList);
-                console.log(this.activeConference);
-                console.log(events);
                 for (let event of events) {
                     // console.log(event);
                     if (event.conference == this.activeConference.number) {
@@ -236,14 +233,18 @@ export class ConferenceComponent implements OnInit {
     }
 
     public setSingleVideo(catalog){
-        this.socket.emit('confbridgeSetSingleVideoSrc', {
-           conference: this.activeConference.number,
-           channel: catalog.channel
-        });
-
-        this.socket.on('confbridgeSetSingleVideoSrc-res', function (data) {
-           console.log(data);
-        });
+      //  this.socket.emit('confbridgeSetSingleVideoSrc', {
+       //    conference: this.activeConference.number,
+      //     channel: catalog.channel
+        //});
+//
+  //      this.socket.on('confbridgeSetSingleVideoSrc-res', function (data) {
+    //       console.log(data);
+      //  });
+        this.data.setVideo(this.activeConference.number, catalog.channel)
+            .subscribe((res) => {
+                console.log(res);
+            });
     }
 
     private getActiveConference() {

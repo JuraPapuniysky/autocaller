@@ -2,6 +2,7 @@
 
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/database.php');
+$pami = require (__DIR__ . '/pami.php');
 
 $config = [
     'id' => 'basic',
@@ -33,6 +34,7 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'pami' => $pami,
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -95,6 +97,7 @@ $config = [
                     'controller' => 'conference',
                     'extraPatterns' => [
                         'POST get-active' => 'get-active',
+                        'POST set-video' => 'set-video'
                     ]
                 ],
             ],

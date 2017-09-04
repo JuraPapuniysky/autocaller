@@ -25,4 +25,15 @@ class ConferenceController extends ActiveController
             return false;
         }
     }
+
+    public function actionSetVideo()
+    {
+        $conference = \Yii::$app->request->post('conference');
+        $channel = \Yii::$app->request->post('channel');
+        $pami = \Yii::$app->pami;
+        $pami->initAmi();
+        $message = $pami->setSingleVideoSrc($conference, $channel);
+        $pami->closeAmi();
+        return $message;
+    }
 }

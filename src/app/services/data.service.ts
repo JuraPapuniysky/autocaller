@@ -171,6 +171,15 @@ export class DataService {
     )
   }
 
+  public setVideo(conference, channel){
+    let body = new FormData();
+    body.append('conference', conference);
+    body.append('channel', channel);
+
+    return this.http.post(this.url+'/conferences/set-video', body)
+        .map((res: Response) => res.json());
+  }
+
 
 
 
