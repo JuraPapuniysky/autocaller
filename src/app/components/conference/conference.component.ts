@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
 import {DataService} from "../../services/data.service";
 import {ActiveList} from "./active.list";
+import {forEach} from "@angular/router/src/utils/collection";
 
 
 @Component({
@@ -233,14 +234,6 @@ export class ConferenceComponent implements OnInit {
     }
 
     public setSingleVideo(catalog){
-      //  this.socket.emit('confbridgeSetSingleVideoSrc', {
-       //    conference: this.activeConference.number,
-      //     channel: catalog.channel
-        //});
-//
-  //      this.socket.on('confbridgeSetSingleVideoSrc-res', function (data) {
-    //       console.log(data);
-      //  });
         this.data.setVideo(this.activeConference.number, catalog.channel)
             .subscribe((res) => {
                 console.log(res);
@@ -254,6 +247,42 @@ export class ConferenceComponent implements OnInit {
                 this.activeConference = res;
             }
         });
+    }
+
+    public callAll(){
+        for (let catalog of this.activeList){
+            this.originate(catalog);
+        }
+    }
+
+    public kickAll(){
+        for (let catalog of this.activeList){
+            this.confbridgeKick(catalog);
+        }
+    }
+
+    public muteAll(){
+        for (let catalog of this.activeList){
+            if(catalog.microphone == 1 && this.isCatalogActive(catalog)){
+                this.microphoneOff(catalog);
+            }
+        }
+    }
+
+    public unmuteAll(){
+        for (let catalog of this.activeList){
+            if(catalog.microphone != 1 && this.isCatalogActive(catalog)){
+                this.microphoneOn(catalog);
+            }
+        }
+    }
+
+    public setImage(){
+        for (let catalog of this.activeList){
+            if (catalog.number == '894490' && this.isCatalogActive(catalog)){
+                this.setSingleVideo(catalog);
+            }
+        }
     }
 
     public isCatalogActive(catalog) {
