@@ -44,7 +44,38 @@
             </tr>
             </tbody>
         </table>
+        <div>
+            <h2>Список учасників на прослуховуванні {{activeConference.name}}</h2>
+            <table class="table table-condensed table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th><a (click)="kickAll()" class="btn btn-danger btn-sm glyphicon glyphicon-remove"></a></th>
+                    <th>Найменування</th>
+                    <th>Телефон</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of unListActiveUsers">
+                    <td><button (click)="confbridgeKick(user)" class="btn btn-default btn-sm glyphicon glyphicon-remove"></button></td>
+                    <td>{{user.calleridname}}</td>
+                    <td>{{user.calleridnum}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <div class="col-md-4">
+        <form (ngSubmit)="callNumber()" #callNumberForm = "ngForm">
+            <h2 class="form-signin-heading">Викликати на прослуховування</h2>
+            <div class="form-group">
+                <label for="number">Номер:</label>
+                <input name="number" type="text" class="form-control" id="number" #number = ngModel [(ngModel)]="model.number">
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!callNumberForm.form.valid">Додати номер</button>
+        </form>
+    </div>
+
     <div class="col-md-5">
 
     </div>

@@ -4,7 +4,8 @@ import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
 import {DataService} from "../../services/data.service";
 import {ActiveList} from "./active.list";
-import {forEach} from "@angular/router/src/utils/collection";
+import {Call} from "./call";
+
 
 
 @Component({
@@ -20,8 +21,10 @@ export class ConferenceComponent implements OnInit {
     public event: string;
     public confJoinEvents = [];
     public activeList = [];
+    public unListActiveUsers = [];
     public activeConference;
 
+    public model = new Call('');
 
     constructor(private auth: AuthService,
                 private data: DataService,
@@ -73,8 +76,14 @@ export class ConferenceComponent implements OnInit {
 
     public originate(catalog){
         console.log(catalog);
+        let channel = '';
+        if (catalog.number.length == 3){
+            channel = "SIP/SOE_193/"+catalog.number;
+        } else {
+            channel = "SIP/"+catalog.number;
+        }
         this.socket.emit('originate', {
-            channel: "SIP/"+catalog.number,
+            channel: channel,
             callerid: catalog.number,
             conference: this.activeConference.number
         });
@@ -86,12 +95,15 @@ export class ConferenceComponent implements OnInit {
     public updateActiveList(events) {
         this.data.getActiveList()
             .subscribe((res) => {
+                this.unListActiveUsers = events;
+                this.unListActiveUsers.pop();
                 for (let event of events) {
                     // console.log(event);
                     if (event.conference == this.activeConference.number) {
                         let i = 0;
                         for (let item of this.activeList) {
                             if (item.number == event.calleridnum) {
+                                this.unListActiveUsers.splice(i, 1);
                                 this.activeList[i].isActive = true;
                                 this.activeList[i].channel = event.channel;
                                 if(this.activeList[i].microphone == 1){
@@ -103,6 +115,9 @@ export class ConferenceComponent implements OnInit {
                             i++;
                         }
                     }
+                }
+                for (let user of this.unListActiveUsers){
+                    this.confbridgeMute(this.activeConference.number, user.channel);
                 }
             });
     }
@@ -134,6 +149,7 @@ export class ConferenceComponent implements OnInit {
             this.confJoinEvents = data.event;
             console.log(this.confJoinEvents);
             console.log(this.activeList);
+            let isList = false;
             let i = 0;
             for (let item of this.activeList) {
                 if (this.activeConference.number == this.confJoinEvents.conference) {
@@ -144,9 +160,16 @@ export class ConferenceComponent implements OnInit {
                         }else {
                             this.confbridgeMute(this.activeConference.number, this.activeList[i].channel);
                         }
+                        isList = true;
                     }
                 }
                 i++;
+            }
+            if (isList == false) {
+                if (this.activeConference.number == this.confJoinEvents.conference) {
+                    this.unListActiveUsers.push(this.confJoinEvents);
+                    this.confbridgeMute(this.activeConference.number, this.confJoinEvents.channel);
+                }
             }
         }.bind(this));
     }
@@ -160,6 +183,15 @@ export class ConferenceComponent implements OnInit {
                 if (this.activeConference.number == this.confJoinEvents.conference) {
                     if (item.number == this.confJoinEvents.calleridnum && item.channel == this.confJoinEvents.channel) {
                         this.activeList[i].channel = '';
+                    }
+                }
+                i++;
+            }
+            i = 0;
+            for (let user of this.unListActiveUsers){
+                if (this.activeConference.number == this.confJoinEvents.conference){
+                    if (user.calleridnum == this.confJoinEvents.calleridnum && user.channel == this.confJoinEvents.channel){
+                        this.unListActiveUsers.splice(i, 1);
                     }
                 }
                 i++;
@@ -289,5 +321,9 @@ export class ConferenceComponent implements OnInit {
         return catalog.channel != '';
     }
 
+
+    public callNumber(){
+        this.originate(this.model);
+    }
 
 }
