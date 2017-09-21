@@ -15,7 +15,7 @@ import {Call} from "./call";
 })
 export class ConferenceComponent implements OnInit {
 
-    private socket = io('http://localhost:4242');
+    private socket = io('http://10.109.36.195:4242');
 
     public confStartEvent;
     public event: string;

@@ -8,7 +8,7 @@ import { List } from "../components/lists/list";
 @Injectable()
 export class DataService {
 
-  private url = 'http://localhost:5050';
+  private url = 'http://10.109.36.195/autocallerapi';
   private asteriskUrl = 'http://localhost:4242';
   private token: string;
 

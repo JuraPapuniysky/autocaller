@@ -15,7 +15,7 @@ export class AuthService {
     private isUserLoggedIn;
     public user: any;
 
-    private authUrl = 'http://localhost:5050/users';
+    private authUrl = 'http://10.109.36.195/autocallerapi/users';
     public tokenKey: string = 'access-token';
     private userKey: string = 'user';
 
