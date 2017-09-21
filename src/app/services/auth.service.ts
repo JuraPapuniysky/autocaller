@@ -15,7 +15,11 @@ export class AuthService {
     private isUserLoggedIn;
     public user: any;
 
+
     private authUrl = 'http://localhost:5050/users';
+
+
+
     public tokenKey: string = 'access-token';
     private userKey: string = 'user';
 
