@@ -16,7 +16,7 @@ export class AuthService {
     public user: any;
 
 
-    private authUrl = 'http://localhost:5050/users';
+    private authUrl = 'http://10.109.36.195:5050/users';
 
 
 

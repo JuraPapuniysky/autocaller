@@ -9,9 +9,9 @@ import { List } from "../components/lists/list";
 export class DataService {
 
 
-  private url = 'http://localhost:5050';
+  private url = 'http://10.109.36.195:5050';
 
-  private asteriskUrl = 'http://localhost:4242';
+  private asteriskUrl = 'http://10.109.36.195:4242';
   private token: string;
 
 
