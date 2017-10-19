@@ -128,7 +128,7 @@ export class ConferenceComponent implements OnInit {
 
     private createActiveList(res) {
         for (const item of res) {
-            const activeList = new ActiveList();
+            let activeList = new ActiveList();
             activeList.catalogId = item.catalog_id;
             activeList.configNumberId = item.config_number_id;
             activeList.name = item.name;
@@ -156,10 +156,10 @@ export class ConferenceComponent implements OnInit {
             let isList = false;
             let i = 0;
             for (const item of this.activeList) {
-                if (this.activeConference.number === this.confJoinEvents.conference) {
-                    if (item.number === this.confJoinEvents.calleridnum) {
+                if (this.activeConference.number == this.confJoinEvents.conference) {
+                    if (item.number == this.confJoinEvents.calleridnum) {
                         this.activeList[i].channel = this.confJoinEvents.channel;
-                        if (this.activeList[i].microphone === 1) {
+                        if (this.activeList[i].microphone == 1) {
                             this.confbridgeUnmute(this.activeConference.number, this.activeList[i].channel);
                         } else {
                             this.confbridgeMute(this.activeConference.number, this.activeList[i].channel);
@@ -169,7 +169,7 @@ export class ConferenceComponent implements OnInit {
                 }
                 i++;
             }
-            if (isList === false) {
+            if (isList == false) {
                 if (this.activeConference.number === this.confJoinEvents.conference) {
                     this.unListActiveUsers.push(this.confJoinEvents);
                     this.confbridgeMute(this.activeConference.number, this.confJoinEvents.channel);
@@ -204,7 +204,7 @@ export class ConferenceComponent implements OnInit {
     }
 
     public isMicrophoneActive(catalog) {
-        if (catalog.microphone != '0') {
+        if (catalog.microphone != 0) {
             return true;
         }
     }

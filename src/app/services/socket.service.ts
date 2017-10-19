@@ -6,7 +6,7 @@ import * as io from 'socket.io-client';
 @Injectable()
 export class SocketService {
 
-  private socket = io('http://localhost:4242');
+  private socket = io('http://10.109.36.195:4242');
 
   constructor() { }
 
