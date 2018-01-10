@@ -9,7 +9,7 @@ import { List } from "../components/lists/list";
 export class DataService {
 
 
-  private url = 'http://10.109.71.239:5050';
+  private url = 'http://10.109.71.239:8008';
 
   private asteriskUrl = 'http://10.109.71.239:4242';
   private token: string;

@@ -76,15 +76,20 @@ export class ConferenceComponent implements OnInit {
     public originate(catalog) {
         console.log(catalog);
         let channel = '';
+        let conference = this.activeConference.number;
         if (catalog.number.length !== 3) {
             channel = 'SIP/' + catalog.number;
-        } else {
+        }else {
             channel = 'SIP/SOE_193/' + catalog.number;
+        }
+        if (catalog.number == '000877') {
+          channel = 'local/877';
+          conference = '000877';
         }
         this.socket.emit('originate', {
             channel: channel,
             callerid: catalog.number,
-            conference: this.activeConference.number
+            conference: conference
         });
         this.socket.on('originate-res', function (data) {
             console.log(data);
