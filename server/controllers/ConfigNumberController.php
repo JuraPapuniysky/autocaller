@@ -66,7 +66,7 @@ class ConfigNumberController extends ActiveController
         ->setMethod('GET')
         ->setUrl('http://asutp-ssrem:8088')
         ->send();
-      return $response;
+      return $response->content;
     }
 
     protected static function findConfigNumbers($list_name_id)
