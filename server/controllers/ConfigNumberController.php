@@ -66,7 +66,8 @@ class ConfigNumberController extends ActiveController
         ->setMethod('GET')
         ->setUrl('http://asutp-ssrem:8088')
         ->send();
-      $response = str_replace("\n", "", $response->content);;
+      $response = str_replace("\n", "", $response->content);
+      $response = str_replace("\r", "", $response->content);
       return $response;
     }
 
