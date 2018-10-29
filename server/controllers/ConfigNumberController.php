@@ -70,7 +70,7 @@ class ConfigNumberController extends ActiveController
       $response = str_replace("\r", "", $response);
       $response = str_replace("{", "", $response);
       $response = str_replace("}", "", $response);
-      $response = str_replace(",", " ", $response);
+
       $response = str_replace("\"", " ", $response);
       $response = explode(' ', $response);
       $data = ['data' => [
