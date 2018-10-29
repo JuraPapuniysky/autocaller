@@ -68,6 +68,7 @@ class ConfigNumberController extends ActiveController
         ->send();
       $response = str_replace("\n", "", $response->content);
       $response = str_replace("\r", "", $response);
+      $response = explode(' ', $response);
       return $response;
     }
 
