@@ -6,6 +6,7 @@ namespace app\controllers;
 
 use app\models\ConfigNumber;
 use app\models\ListName;
+use yii\httpclient\Client;
 use yii\rest\ActiveController;
 
 class ConfigNumberController extends ActiveController
@@ -56,6 +57,16 @@ class ConfigNumberController extends ActiveController
         }else {
             return false;
         }
+    }
+
+    public function actionConlimit()
+    {
+      $client = new Client();
+      $response = $client->createRequest()
+        ->setMethod('GET')
+        ->setUrl('http://asutp-ssrem:8088')
+        ->send();
+      return $response;
     }
 
     protected static function findConfigNumbers($list_name_id)
