@@ -77,7 +77,7 @@ class ConfigNumberController extends ActiveController
           'plan' => $response[2],
           'fact' => $response[5]
       ]];
-      return json_encode($data);
+      return $data;
     }
 
     protected static function findConfigNumbers($list_name_id)
