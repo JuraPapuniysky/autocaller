@@ -74,10 +74,10 @@ class ConfigNumberController extends ActiveController
       $response = str_replace("\"", " ", $response);
       $response = explode(' ', $response);
       $data = ['data' => [
-          'plan' => (float)$response[1],
-          'fact' => $response[3]
+          'plan' => $response[2],
+          'fact' => $response[5]
       ]];
-      return $response;
+      return json_encode($data);
     }
 
     protected static function findConfigNumbers($list_name_id)
