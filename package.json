@@ -31,7 +31,7 @@
     "express": "^4.15.3",
     "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "morgan": "^1.8.2",
     "nami": "^0.7.2",
     "run-sequence": "^2.1.0",
